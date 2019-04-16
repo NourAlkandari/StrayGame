@@ -1,58 +1,70 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from random import randrange
-from django.auth.models import User
+from django.contrib.auth.models import User
 
+# Pet Needs (dynamic details)
+class PetState(models.Model):
+    fun = models.IntegerField(default=1,
+        validators=[MaxValueValidator(5), MinValueValidator(1)])
+    social = models.IntegerField(default=1,
+        validators=[MaxValueValidator(5), MinValueValidator(1)])
+    hunger = models.IntegerField(default=1,
+        validators=[MaxValueValidator(5), MinValueValidator(1)])
+    sleep = models.IntegerField(default=1,
+        validators=[MaxValueValidator(5), MinValueValidator(1)])
+    bladder = models.IntegerField(default=1,
+        validators=[MaxValueValidator(5), MinValueValidator(1)])
 
 ###############################################
 # Pet "Static" Details
 class Pet(models.Model):
-	name = models.CharField(max_length=120)
-	breed = models.CharField(max_length=120)
-	weight = models.IntegerField()
-	age = models.IntegerField()
-	states = models.OneToOne(PetState, on_delete=models.CASCADE)
-	user = models.OneToOne(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=120)
+    breed = models.CharField(max_length=120)
+    weight = models.IntegerField()
+    age = models.IntegerField()
+    states = models.OneToOneField(PetState, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 # Initializes pet states [is this even necessary for an API?]
-	def __init__(self):
-		self.name = name
-		self.fun = fun
-		self.social = social
-		self.hunger = hunger
-		self.sleep = sleep
-		self.bladder = bladder
+    def __init__(self):
+        self.name = name
+        self.fun = fun
+        self.social = social
+        self.hunger = hunger
+        self.sleep = sleep
+        self.bladder = bladder
 
-# def __str__(self):
-#     	return self.name
+    # def __str__(self):
+ #      return self.name
 
-# Pet Needs (dynamic details)
-class PetState(models.Model):
-	fun = models.IntegerField(default=1,
-        validators=[MaxValueValidator(5), MinValueValidator(1)])
-	social = models.IntegerField(default=1,
-        validators=[MaxValueValidator(5), MinValueValidator(1)])
-	hunger = models.IntegerField(default=1,
-        validators=[MaxValueValidator(5), MinValueValidator(1)])
-	sleep = models.IntegerField(default=1,
-        validators=[MaxValueValidator(5), MinValueValidator(1)])
-	bladder = models.IntegerField(default=1,
-        validators=[MaxValueValidator(5), MinValueValidator(1)])
-
+###############################################
 # Make a model for all "items" with options in the game
 class Food(models.Model):
     Dog_Food = "Dog Food"
-	Chocolate = "Chocolate"
-	Todays_Lunch = "Today's Lunch"
+    Chocolate = "Chocolate"
+    Todays_Lunch = "Today's Lunch"
 
-	FOOD_OPTIONS = (
-		(Dog_Food,Dog_Food),
-		(Chocolate,Chocolate),
-		(Todays_Lunch,Todays_Lunch)
-		)
+    FOOD_OPTIONS = (
+        (Dog_Food,Dog_Food),
+        (Chocolate,Chocolate),
+        (Todays_Lunch,Todays_Lunch)
+        )
 
-    food_choice = models.CharField(choices=FOOD_OPTIONS)
+    options = models.CharField(choices=FOOD_OPTIONS, max_length=120)
 
+class Entertainment(models.Model):
+    Walk_Pet = "Take Pet for a Walk"
+    Ignore = "Ignore"
+    Go_to_Petstore = "Go to Petstore"
+
+    Entertainment_Options = (
+        (Walk_Pet,Walk_Pet),
+        (Ignore,Ignore),
+        (Go_to_Petstore,Go_to_Petstore)
+        )
+
+    options = models.CharField(choices=Entertainment_Options, max_length=120)
 
 ###############################################
 ############ Example of Tamagotchi ############
@@ -111,9 +123,9 @@ class Food(models.Model):
 # Need to connect pet states to pet
 
 # class Items(models.Model):
-# 	food = 
-# 	toys = 
-# 	health_kit = 
-# 	bed = 
+#   food = 
+#   toys = 
+#   health_kit = 
+#   bed = 
 
 

@@ -14,11 +14,27 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
+from django.urls import path
+from rest_framework_jwt.views import obtain_jwt_token
+
+from .views import CreateAPIView, RetrieveUpdateAPIView, RetrieveAPIView, APIView
+
+from api import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')), #add api/for all the urls on the app "api"
-]
+    path('login/', obtain_jwt_token, name='login'),
+    path('register/', views.UserCreateAPIView.as_view(), name='register'),
 
+    # Pet Details and States
+    path('pet/', views.PetDetailView.as_view(), name='pet-details'),
+    path('pet/states/', views.PetStateDetailView.as_view(), name='pet-states'),
+
+    # Pet Interactions
+    path('pet/feed/', views.FeedPet.as_view(), name='feed-pet'),
+    path('pet/entertain/', views.EntertainPet.as_view(), name='entertain-pet'),
+
+
+
+
+]
