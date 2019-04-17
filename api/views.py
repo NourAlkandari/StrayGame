@@ -16,28 +16,20 @@ class UserCreateAPIView(CreateAPIView):
 ####################### PET #######################
 # Details of the pet (static-ish)
 class PetDetailView(RetrieveUpdateAPIView):
-    # queryset = Pet.objects.all()
     serializer_class = PetDetailSerializer
-    # lookup_field = 'id'
-    # lookup_url_kwarg = 'object_id'
     # only one pet, therefore only one object, so no need for object_id
 
     def get_object(self):
-    	queryset = self.get_queryset()
-    	obj = get_object_or_404(queryset, user=self.request.user)
+    	obj = Pet.objects.get(user=self.request.user)
     	return obj
 
 # Details of the pet state (dynamic-ish)
 class PetStateDetailView(RetrieveAPIView):
-    # queryset = PetState.objects.all()
     serializer_class = PetStateSerializer
-    # lookup_field = 'id'
-    # lookup_url_kwarg = 'object_id'
     
     def get_object(self):
-    	queryset = self.get_queryset()
-    	obj = get_object_or_404(queryset, user=self.request.user)
-    	return obj
+        obj = PetState.objects.get(user=self.request.user)
+        return obj
 
 ##################### ACTIONS #####################
 # Functions i.e. The pet interactions that will alter the state of the pet. Must create a url for each action (interaction)

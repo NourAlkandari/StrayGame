@@ -27,16 +27,16 @@ class Pet(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 # Initializes pet states [is this even necessary for an API?]
-    def __init__(self):
-        self.name = name
-        self.fun = fun
-        self.social = social
-        self.hunger = hunger
-        self.sleep = sleep
-        self.bladder = bladder
+    # def __init__(self):
+    #     self.name = name
+    #     self.fun = fun
+    #     self.social = social
+    #     self.hunger = hunger
+    #     self.sleep = sleep
+    #     self.bladder = bladder
 
-    # def __str__(self):
- #      return self.name
+    def __str__(self):
+      return self.name
 
 ###############################################
 # Make a model for all "items" with options in the game

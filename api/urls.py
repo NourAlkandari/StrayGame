@@ -22,13 +22,12 @@ from .views import CreateAPIView, RetrieveUpdateAPIView, RetrieveAPIView, APIVie
 from api import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('login/', obtain_jwt_token, name='login'),
     path('register/', views.UserCreateAPIView.as_view(), name='register'),
 
     # Pet Details and States
     path('pet/', views.PetDetailView.as_view(), name='pet-details'),
-    path('pet/states/', views.PetStateDetailView.as_view(), name='pet-states'),
+    # path('pet/states/', views.PetStateDetailView.as_view(), name='pet-states'), #Don't think another api is needed if the first one is connected to the states
 
     # Pet Interactions
     path('pet/feed/', views.FeedPet.as_view(), name='feed-pet'),
