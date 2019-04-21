@@ -68,7 +68,7 @@ class FeedPet(APIView):
         # OR below? Do I need the above if the serializer_class is already defined?
         # self.hunger = max(0, self.hunger - self.counter) #so you don't see negative hunger, duh!
         state.save()
-        return Response(PetStateerializer(pet.state).data) # self.hunger or state??
+        return Response(PetStateSerializer(pet.state).data) # self.hunger or state??
 
 class EntertainPet(APIView):
     serializer_class = PetStateSerializer

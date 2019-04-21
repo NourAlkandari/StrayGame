@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Pet, PetState, Food, Entertainment
+import datetime
+# from django.utils.timezone import now
+
 
 class PetStateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,10 +12,17 @@ class PetStateSerializer(serializers.ModelSerializer):
 
 class PetDetailSerializer(serializers.ModelSerializer):
     state = PetStateSerializer() #if using all, use the same field name!!!
+    age = serializers.SerializerMethodField()
 
     class Meta:
         model = Pet
         fields = '__all__'
+
+    def get_age(self, obj):
+        obj = User
+        now = datetime.datetime.now()
+        new_age = (now - obj.date_joined).years
+        return new_age
 
 class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
