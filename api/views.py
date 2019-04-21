@@ -22,6 +22,8 @@ class PetDetailView(RetrieveUpdateAPIView):
     # only one pet, therefore only one object, so no need for object_id
 
     def get_object(self):
+        # pet_obj, created = Pet.objects.get_or_create(user = request.user)
+        # return pet_obj
         obj = Pet.objects.get(user=self.request.user) #do get or create
         return obj
 

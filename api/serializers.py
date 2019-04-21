@@ -10,7 +10,6 @@ class PetStateSerializer(serializers.ModelSerializer):
 class PetDetailSerializer(serializers.ModelSerializer):
     state = PetStateSerializer() #if using all, use the same field name!!!
 
-
     class Meta:
         model = Pet
         fields = '__all__'
