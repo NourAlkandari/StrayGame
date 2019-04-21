@@ -30,6 +30,7 @@ urlpatterns = [
     # path('pet/states/', views.PetStateDetailView.as_view(), name='pet-states'), #Don't think another api is needed if the first one is connected to the states
 
     # Pet Interactions
+    path('pet/name/', views.NamePet.as_view(), name='name-pet'),
     path('pet/feed/', views.FeedPet.as_view(), name='feed-pet'),
     path('pet/entertain/', views.EntertainPet.as_view(), name='entertain-pet'),
 

@@ -2,6 +2,8 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from random import randrange
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Pet Needs (dynamic details)
 class PetState(models.Model):
@@ -19,12 +21,18 @@ class PetState(models.Model):
 ###############################################
 # Pet "Static" Details
 class Pet(models.Model):
-    name = models.CharField(max_length=120)
-    breed = models.CharField(max_length=120)
-    weight = models.IntegerField()
-    age = models.IntegerField()
-    states = models.OneToOneField(PetState, on_delete=models.CASCADE)
+    name = models.CharField(max_length=120, null=True)
+    breed = models.CharField(max_length=120, default="Mix-breed")
+    weight = models.DecimalField(default=4, decimal_places=2, max_digits=4) #or float field, add decimal points later!!
+    age = models.IntegerField(default=3)
+    state = models.OneToOneField(PetState, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+# decorater, takes an instance of the User model and creates a pet. First, you have to create a pet state and then a pet for the user (since pet state is part of Pet model). Post_save means "do this once a User is save i.e. created"
+@receiver(post_save, sender=User)
+def users_pet(instance, *args, **kwargs):
+    state = PetState.objects.create()
+    Pet.objects.create(user=instance, state=state) #only non-defaults
 
 # Initializes pet states [is this even necessary for an API?]
     # def __init__(self):
