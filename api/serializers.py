@@ -8,7 +8,7 @@ class PetStateSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PetDetailSerializer(serializers.ModelSerializer):
-    states = PetStateSerializer() #if using all, use the same field name!!!
+    state = PetStateSerializer() #if using all, use the same field name!!!
 
 
     class Meta:
@@ -28,6 +28,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
         email = validated_data['email']
         new_user = User(username=username, email=email)
         new_user.set_password(password)
+        Pet.objects.create()
         new_user.save()
-        Profile.objects.create(user=new_user)
         return validated_data
