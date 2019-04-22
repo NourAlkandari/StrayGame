@@ -37,6 +37,5 @@ class UserCreateSerializer(serializers.ModelSerializer):
         email = validated_data['email']
         new_user = User(username=username, email=email)
         new_user.set_password(password)
-        Pet.objects.create()
         new_user.save()
         return validated_data

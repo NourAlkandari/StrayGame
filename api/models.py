@@ -29,10 +29,12 @@ class Pet(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 # decorater, takes an instance of the User model and creates a pet. First, you have to create a pet state and then a pet for the user (since pet state is part of Pet model). Post_save means "do this once a User is save i.e. created"
+# commad + ctrl + arrow up or down
 @receiver(post_save, sender=User)
-def users_pet(instance, *args, **kwargs):
-    state = PetState.objects.create()
-    Pet.objects.create(user=instance, state=state) #only non-defaults
+def users_pet(instance, created, *args, **kwargs):
+    if created:
+        state = PetState.objects.create() # shifted this upwards, jic. Cause many petState objects were created on the admin site 
+        Pet.objects.create(user=instance, state=state) #only non-defaults
 
 # Initializes pet states [is this even necessary for an API?]
     # def __init__(self):

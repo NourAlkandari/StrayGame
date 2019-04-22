@@ -78,14 +78,43 @@ class EntertainPet(APIView):
         pet = Pet.objects.get(user=request.user)
         state = pet.state
         if (state.fun < 5) and (state.fun >= 0):
-            if entertainment == "Walk Pet":
-                state.fun= max(0, state.fun + double_counter) 
+            if entertainment == "Walk Pet": #bonus feature i.e. address multiple needs in one ???
+                state.fun = max(0, state.fun + double_counter)
+                state.social = max(0, state.social + counter)
+                state.bladder = max(0, state.bladder + counter)
             elif entertainment == "Ignore":
                 state.fun= max(0, state.fun - double_counter) 
             elif entertainment == "Go to Petstore":
                 state.fun= max(0, state.fun + counter)
         state.save()
         return Response(PetStateSerializer(pet.state).data)
+
+class PutPetToBed(APIView):
+    serializer_class = PetStateSerializer
+
+    def post(self, request):
+        put_to_bed = request.data.get("Put to Bed")
+        pet = Pet.objects.get(user=request.user)
+        state = pet.state
+        if (state.sleep < 5) and (state.sleep >= 0):
+            if put_to_bed == "Put to Bed":
+                state.sleep = max(0, state.sleep + counter) 
+        state.save()
+        return Response(PetStateSerializer(pet.state).data)
+
+
+class PetMood(APIView):
+    serializer_class = PetStateSerializer
+
+    def get(self, request):
+        state = pet.state
+        if (state.fun >= 4) and (state.hunger >= 4) and (state.social >= 4):
+            return "Happy"
+        elif ((state.fun <= 3) and (state.hunger <= 3) and (state.social <= 3)) and ((state.fun >= 2) and (state.hunger >= 2) and (state.social >= 2)):
+            return "Neutral"
+        else:
+            return "Sad"
+
 
     # def post(self, request):
     #     entertainment_options = request.data

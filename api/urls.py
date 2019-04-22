@@ -33,6 +33,8 @@ urlpatterns = [
     path('pet/name/', views.NamePet.as_view(), name='name-pet'),
     path('pet/feed/', views.FeedPet.as_view(), name='feed-pet'),
     path('pet/entertain/', views.EntertainPet.as_view(), name='entertain-pet'),
+    path('pet/sleep/', views.PutPetToBed.as_view(), name='sleep-pet'),
+
 
 
 
