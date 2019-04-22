@@ -19,9 +19,10 @@ class PetDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_age(self, obj):
-        obj = User
-        now = datetime.datetime.now()
-        new_age = (now - obj.date_joined).years
+        user = obj.user
+        now = datetime.datetime.now(datetime.timezone.utc)
+        new_age = (now - user.date_joined).days
+        print(new_age)
         return new_age
 
 class UserCreateSerializer(serializers.ModelSerializer):
