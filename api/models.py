@@ -18,6 +18,11 @@ class PetState(models.Model):
     bladder = models.IntegerField(default=1,
         validators=[MaxValueValidator(5), MinValueValidator(1)])
 
+    def __str__(self):
+        return " Fun: " +str(self.fun) + " Hunger: " + str(self.hunger)
+
+
+
 ###############################################
 # Pet "Static" Details
 class Pet(models.Model):
@@ -27,6 +32,9 @@ class Pet(models.Model):
     age = models.IntegerField(default=3)
     state = models.OneToOneField(PetState, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+      return self.name
 
 # decorater, takes an instance of the User model and creates a pet. First, you have to create a pet state and then a pet for the user (since pet state is part of Pet model). Post_save means "do this once a User is save i.e. created"
 # commad + ctrl + arrow up or down
@@ -45,8 +53,7 @@ def users_pet(instance, created, *args, **kwargs):
     #     self.sleep = sleep
     #     self.bladder = bladder
 
-    def __str__(self):
-      return self.name
+ 
 
 ###############################################
 # Make a model for all "items" with options in the game
