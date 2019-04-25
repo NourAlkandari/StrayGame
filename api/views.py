@@ -58,12 +58,12 @@ class FeedPet(APIView):
         state = pet.state
 # check the need level to cap it. Also add this validation in the front-end (user can't continue to feed pet if hunger is maxed out)
 # get the food option from the front end and check if it matches one of the food options (string). No need for a model for Food (would not work anyway)
-        if (state.hunger < 5) and (state.hunger >= 0):
+        if (state.hunger <= 100) and (state.hunger >= 0):
             if food == "Dog Food":
                 state.hunger= max(0, state.hunger + double_counter) # need to decide what kind of metric to follow (e.g. if "hunger" is high then pet is full or is the pet hungry?)
-            if food == "Chocolate":
+            elif food == "Chocolate":
                 state.hunger= max(0, state.hunger - double_counter) # add effect on mood later on
-            if food == "Today's Lunch":
+            elif food == "Today's Lunch":
                 state.hunger= max(0, state.hunger + counter)
         # OR below? Do I need the above if the serializer_class is already defined?
         # self.hunger = max(0, self.hunger - self.counter) #so you don't see negative hunger, duh!

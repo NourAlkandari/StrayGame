@@ -7,15 +7,15 @@ from django.dispatch import receiver
 
 # Pet Needs (dynamic details)
 class PetState(models.Model):
-    fun = models.IntegerField(default=1,
+    fun = models.IntegerField(default=20,
         validators=[MaxValueValidator(100), MinValueValidator(1)])
-    social = models.IntegerField(default=1,
+    social = models.IntegerField(default=20 ,
         validators=[MaxValueValidator(100), MinValueValidator(1)])
-    hunger = models.IntegerField(default=1,
+    hunger = models.IntegerField(default=20,
         validators=[MaxValueValidator(100), MinValueValidator(1)])
-    sleep = models.IntegerField(default=1,
+    sleep = models.IntegerField(default=20,
         validators=[MaxValueValidator(100), MinValueValidator(1)])
-    bladder = models.IntegerField(default=1,
+    bladder = models.IntegerField(default=20,
         validators=[MaxValueValidator(100), MinValueValidator(1)])
 
     def __str__(self):
