@@ -5,7 +5,7 @@ from rest_framework.generics import CreateAPIView, RetrieveAPIView, RetrieveUpda
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-counter = 1
+counter = 20
 double_counter = counter * 2
 
 # leave real time counter in frontend only (so we don't have to use websockets). Check time in frontend and then send a state change to backend. Can also have the timer pause and then restart with each function

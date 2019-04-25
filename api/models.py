@@ -8,15 +8,15 @@ from django.dispatch import receiver
 # Pet Needs (dynamic details)
 class PetState(models.Model):
     fun = models.IntegerField(default=1,
-        validators=[MaxValueValidator(5), MinValueValidator(1)])
+        validators=[MaxValueValidator(100), MinValueValidator(1)])
     social = models.IntegerField(default=1,
-        validators=[MaxValueValidator(5), MinValueValidator(1)])
+        validators=[MaxValueValidator(100), MinValueValidator(1)])
     hunger = models.IntegerField(default=1,
-        validators=[MaxValueValidator(5), MinValueValidator(1)])
+        validators=[MaxValueValidator(100), MinValueValidator(1)])
     sleep = models.IntegerField(default=1,
-        validators=[MaxValueValidator(5), MinValueValidator(1)])
+        validators=[MaxValueValidator(100), MinValueValidator(1)])
     bladder = models.IntegerField(default=1,
-        validators=[MaxValueValidator(5), MinValueValidator(1)])
+        validators=[MaxValueValidator(100), MinValueValidator(1)])
 
     def __str__(self):
         return " Fun: " +str(self.fun) + " Hunger: " + str(self.hunger)
