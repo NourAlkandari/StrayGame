@@ -56,15 +56,21 @@ class FeedPet(APIView):
         food = request.data.get("food") #"food" is the key from frontend. Setup an array in the frontend. Only type of variable that can be passed to backend is a dictionary (JSON) 
         pet = Pet.objects.get(user=request.user) #request.user only
         state = pet.state
+        print(food)
+        print(state)
 # check the need level to cap it. Also add this validation in the front-end (user can't continue to feed pet if hunger is maxed out)
 # get the food option from the front end and check if it matches one of the food options (string). No need for a model for Food (would not work anyway)
         if (state.hunger <= 100) and (state.hunger >= 0):
             if food == "Dog Food":
-                state.hunger= max(0, state.hunger + double_counter) # need to decide what kind of metric to follow (e.g. if "hunger" is high then pet is full or is the pet hungry?)
+                state.hunger = max(0, state.hunger + double_counter) # need to decide what kind of metric to follow (e.g. if "hunger" is high then pet is full or is the pet hungry?)
             elif food == "Chocolate":
-                state.hunger= max(0, state.hunger - double_counter) # add effect on mood later on
+                print("uigiuh")
+                state.hunger = max(0, state.hunger - double_counter) # add effect on mood later on
             elif food == "Today's Lunch":
-                state.hunger= max(0, state.hunger + counter)
+                state.hunger = max(0, state.hunger + counter)
+
+        if state.hunger > 100:
+            state.hunger = 100
         # OR below? Do I need the above if the serializer_class is already defined?
         # self.hunger = max(0, self.hunger - self.counter) #so you don't see negative hunger, duh!
         state.save()
@@ -77,7 +83,7 @@ class EntertainPet(APIView):
         entertainment = request.data.get("entertainment")
         pet = Pet.objects.get(user=request.user)
         state = pet.state
-        if (state.fun < 5) and (state.fun >= 0):
+        if (state.hunger <= 100) and (state.hunger >= 0):
             if entertainment == "Walk Pet": #bonus feature i.e. address multiple needs in one ???
                 state.fun = max(0, state.fun + double_counter)
                 state.social = max(0, state.social + counter)
