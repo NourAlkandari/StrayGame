@@ -21,8 +21,6 @@ class PetState(models.Model):
     def __str__(self):
         return " Fun: " +str(self.fun) + " Hunger: " + str(self.hunger)
 
-
-
 ###############################################
 # Pet "Static" Details
 class Pet(models.Model):

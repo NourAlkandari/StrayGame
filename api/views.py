@@ -46,7 +46,6 @@ class NamePet(APIView):
         pet.save() #saving the pet object
         return Response(PetDetailSerializer(pet).data)
 
-
 ##################### ACTIONS #####################
 # Functions i.e. The pet interactions that will alter the state of the pet. Must create a url for each action (interaction)
 class FeedPet(APIView):
@@ -56,8 +55,6 @@ class FeedPet(APIView):
         food = request.data.get("food") #"food" is the key from frontend. Setup an array in the frontend. Only type of variable that can be passed to backend is a dictionary (JSON) 
         pet = Pet.objects.get(user=request.user) #request.user only
         state = pet.state
-        print(food)
-        print(state)
 # check the need level to cap it. Also add this validation in the front-end (user can't continue to feed pet if hunger is maxed out)
 # get the food option from the front end and check if it matches one of the food options (string). No need for a model for Food (would not work anyway)
         if (state.hunger <= 100) and (state.hunger >= 0):
@@ -80,20 +77,45 @@ class EntertainPet(APIView):
     serializer_class = PetStateSerializer
 
     def post(self, request):
+        # entertainment = request.data
         entertainment = request.data.get("entertainment")
         pet = Pet.objects.get(user=request.user)
         state = pet.state
-        if (state.hunger <= 100) and (state.hunger >= 0):
+        if (state.fun <= 100) and (state.fun >= 0):
             if entertainment == "Walk Pet": #bonus feature i.e. address multiple needs in one ???
                 state.fun = max(0, state.fun + double_counter)
-                state.social = max(0, state.social + counter)
-                state.bladder = max(0, state.bladder + counter)
+                # state.social = max(0, state.social + counter)
+                # state.bladder = max(0, state.bladder + counter)
             elif entertainment == "Ignore":
                 state.fun= max(0, state.fun - double_counter) 
             elif entertainment == "Go to Petstore":
                 state.fun= max(0, state.fun + counter)
+
+        if state.fun > 100:
+            state.fun = 100
+
         state.save()
         return Response(PetStateSerializer(pet.state).data)
+
+# syringe
+class MakePetHealthy(APIView):
+    serializer_class = PetStateSerializer
+
+    def post(self, request):
+        # make_pet_healthy = request.data
+        make_pet_healthy = request.data.get("Syringe")
+        pet = Pet.objects.get(user=request.user)
+        state = pet.state
+        if (state.sleep <= 100) and (state.sleep >= 0):
+            if put_to_bed == "Put to Bed":
+                state.sleep = max(0, state.sleep + counter) 
+
+        if state.sleep > 100:
+            state.sleep = 100
+
+        state.save()
+        return Response(PetStateSerializer(pet.state).data)
+
 
 class PutPetToBed(APIView):
     serializer_class = PetStateSerializer
@@ -102,9 +124,13 @@ class PutPetToBed(APIView):
         put_to_bed = request.data.get("Put to Bed")
         pet = Pet.objects.get(user=request.user)
         state = pet.state
-        if (state.sleep < 5) and (state.sleep >= 0):
+        if (state.sleep <= 100) and (state.sleep >= 0):
             if put_to_bed == "Put to Bed":
                 state.sleep = max(0, state.sleep + counter) 
+
+        if state.sleep > 100:
+            state.sleep = 100
+
         state.save()
         return Response(PetStateSerializer(pet.state).data)
 
