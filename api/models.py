@@ -19,7 +19,7 @@ class PetState(models.Model):
         validators=[MaxValueValidator(100), MinValueValidator(1)])
 
     def __str__(self):
-        return " Fun: " +str(self.fun) + " Hunger: " + str(self.hunger)
+        return " Fun: " + str(self.fun) + " Hunger: " + str(self.hunger)
 
 ###############################################
 # Pet "Static" Details

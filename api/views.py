@@ -61,7 +61,6 @@ class FeedPet(APIView):
             if food == "Dog Food":
                 state.hunger = max(0, state.hunger + double_counter) # need to decide what kind of metric to follow (e.g. if "hunger" is high then pet is full or is the pet hungry?)
             elif food == "Chocolate":
-                print("uigiuh")
                 state.hunger = max(0, state.hunger - double_counter) # add effect on mood later on
             elif food == "Today's Lunch":
                 state.hunger = max(0, state.hunger + counter)
@@ -82,20 +81,25 @@ class EntertainPet(APIView):
         pet = Pet.objects.get(user=request.user)
         state = pet.state
         if (state.fun <= 100) and (state.fun >= 0):
-            if entertainment == "Walk Pet": #bonus feature i.e. address multiple needs in one ???
-                state.fun = max(0, state.fun + double_counter)
-                # state.social = max(0, state.social + counter)
-                # state.bladder = max(0, state.bladder + counter)
-            elif entertainment == "Ignore":
-                state.fun= max(0, state.fun - double_counter) 
-            elif entertainment == "Go to Petstore":
-                state.fun= max(0, state.fun + counter)
-
+            if entertainment == "Play":
+                state.fun = max(0, state.fun + counter)
+   
         if state.fun > 100:
             state.fun = 100
 
         state.save()
         return Response(PetStateSerializer(pet.state).data)
+
+            # if entertainment == "Walk Pet": #bonus feature i.e. address multiple needs in one ???
+            #     state.fun = max(0, state.fun + double_counter)
+            #     # state.social = max(0, state.social + counter)
+            #     # state.bladder = max(0, state.bladder + counter)
+            # elif entertainment == "Ignore":
+            #     state.fun= max(0, state.fun - double_counter) 
+            # elif entertainment == "Go to Petstore":
+            #     state.fun= max(0, state.fun + counter)
+
+
 
 # syringe
 class MakePetHealthy(APIView):
@@ -106,12 +110,18 @@ class MakePetHealthy(APIView):
         make_pet_healthy = request.data.get("Syringe")
         pet = Pet.objects.get(user=request.user)
         state = pet.state
-        if (state.sleep <= 100) and (state.sleep >= 0):
-            if put_to_bed == "Put to Bed":
-                state.sleep = max(0, state.sleep + counter) 
 
-        if state.sleep > 100:
-            state.sleep = 100
+        if make_pet_healthy == "Syringe":
+            if (state.sleep <= 100) and (state.sleep >= 0):
+                state.sleep = 100
+            if (state.social <= 100) and (state.social >= 0):
+                state.social = 100
+            if (state.hunger <= 100) and (state.hunger >= 0):
+                state.hunger = 100
+            if (state.bladder <= 100) and (state.bladder >= 0):
+                state.bladder = 100
+            if (state.fun <= 100) and (state.fun >= 0):
+                state.fun = 100
 
         state.save()
         return Response(PetStateSerializer(pet.state).data)

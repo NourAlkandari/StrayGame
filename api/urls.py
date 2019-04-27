@@ -35,6 +35,9 @@ urlpatterns = [
     path('pet/entertain/', views.EntertainPet.as_view(), name='entertain-pet'),
     path('pet/sleep/', views.PutPetToBed.as_view(), name='sleep-pet'),
 
+    path('pet/syringe/', views.MakePetHealthy.as_view(), name='make-pet-healthy'),
+
+
 
 
 
