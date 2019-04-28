@@ -4,6 +4,7 @@ from .serializers import PetDetailSerializer, PetStateSerializer, UserCreateSeri
 from rest_framework.generics import CreateAPIView, RetrieveAPIView, RetrieveUpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django_cron import CronJobBase, Schedule
 
 counter = 20
 double_counter = counter * 2
@@ -99,8 +100,6 @@ class EntertainPet(APIView):
             # elif entertainment == "Go to Petstore":
             #     state.fun= max(0, state.fun + counter)
 
-
-
 # syringe
 class MakePetHealthy(APIView):
     serializer_class = PetStateSerializer
@@ -145,38 +144,30 @@ class PutPetToBed(APIView):
         return Response(PetStateSerializer(pet.state).data)
 
 
-class PetMood(APIView):
-    serializer_class = PetStateSerializer
+class NeedsDecay(CronJobBase):
+    # RUN_EVERY_MINS = 120 # every 2 hours
+    RUN_EVERY_MINS = 30 # every 1 hours
 
-    def get(self, request):
-        state = pet.state
-        if (state.fun >= 4) and (state.hunger >= 4) and (state.social >= 4):
-            return "Happy"
-        elif ((state.fun <= 3) and (state.hunger <= 3) and (state.social <= 3)) and ((state.fun >= 2) and (state.hunger >= 2) and (state.social >= 2)):
-            return "Neutral"
-        else:
-            return "Sad"
+    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
+    code = 'api.views.NeedsDecay'    # a unique code
 
+    def do(self):
+        pets = Pet.objects.exclude(name__isnull=True)
+        for pet in pets:
+            print(pet)
+            pet.needs()
 
-    # def post(self, request):
-    #     entertainment_options = request.data
-    #     pet = Pet.objects.get(user=request.user)
-    #     states = pet.states
-    #     if Entertainment.options == Entertainment.Walk_Pet:
-    #         states.hunger= max(0, states.hunger + double_counter) 
-    #     elif Entertainment.options == Entertainment.Ignore:
-    #         states.hunger= max(0, states.hunger - double_counter) 
-    #     elif Entertainment.options == Entertainment.Go_to_Petstore:
-    #         states.hunger= max(0, states.hunger + counter)
-    #     states.save()
-    #     return Response(PetStateSerializer(pet.states).data)
+### Redundant for now ###
+# class PetMood(APIView):
+#     serializer_class = PetStateSerializer
 
-###############################################
-
-# def mood(self):
-#         if self.hunger <= self.hunger_threshold and self.boredom <= self.boredom_threshold:
-#             return "happy"
-#         elif self.hunger > self.hunger_threshold:
-#             return "hungry"
+#     def get(self, request):
+#         state = pet.state
+#         if (state.fun >= 4) and (state.hunger >= 4) and (state.social >= 4):
+#             return "Happy"
+#         elif ((state.fun <= 3) and (state.hunger <= 3) and (state.social <= 3)) and ((state.fun >= 2) and (state.hunger >= 2) and (state.social >= 2)):
+#             return "Neutral"
 #         else:
-#             return "bored"
+#             return "Sad"
+
+
