@@ -114,13 +114,13 @@ class MakePetHealthy(APIView):
         if make_pet_healthy == "Syringe":
             if (state.sleep <= 100) and (state.sleep >= 0):
                 state.sleep = 100
-            if (state.social <= 100) and (state.social >= 0):
+            elif (state.social <= 100) and (state.social >= 0):
                 state.social = 100
-            if (state.hunger <= 100) and (state.hunger >= 0):
+            elif (state.hunger <= 100) and (state.hunger >= 0):
                 state.hunger = 100
-            if (state.bladder <= 100) and (state.bladder >= 0):
+            elif (state.bladder <= 100) and (state.bladder >= 0):
                 state.bladder = 100
-            if (state.fun <= 100) and (state.fun >= 0):
+            elif (state.fun <= 100) and (state.fun >= 0):
                 state.fun = 100
 
         state.save()
