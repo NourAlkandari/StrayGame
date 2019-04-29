@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'api',
 
     'rest_framework',
+
+    "django_cron",
 ]
 
 MIDDLEWARE = [
@@ -52,6 +54,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CRON_CLASSES = [
+    # app name.file name. function name
+    "api.views.NeedsDecay",
 ]
 
 REST_FRAMEWORK = {
