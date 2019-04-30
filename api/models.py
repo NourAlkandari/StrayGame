@@ -24,7 +24,7 @@ class PetState(models.Model):
 ###############################################
 # Pet "Static" Details
 class Pet(models.Model):
-    name = models.CharField(max_length=120, null=True)
+    name = models.CharField(max_length=120, null=True, default="Doggo")
     breed = models.CharField(max_length=120, default="Mix-breed")
     weight = models.DecimalField(default=4, decimal_places=2, max_digits=4) #or float field, add decimal points later!!
     age = models.IntegerField(default=3)
