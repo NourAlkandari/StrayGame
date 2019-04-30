@@ -15,7 +15,7 @@ class PetStateSerializer(serializers.ModelSerializer):
 class PetDetailSerializer(serializers.ModelSerializer):
     state = PetStateSerializer() #if using all, use the same field name!!!
     age = serializers.SerializerMethodField()
-    mood = serializers.SerializerMethodField()
+    # mood = serializers.SerializerMethodField()
 
     class Meta:
         model = Pet
@@ -27,13 +27,14 @@ class PetDetailSerializer(serializers.ModelSerializer):
         new_age = (now - user.date_joined).days
         return new_age
 
-    def get_mood(self,obj):
-        if (state.fun >= 80 and state.fun <= 100) and (state.hunger >= 80 and state.hunger <= 100) and (state.social >= 80 and state.social <= 100) and (state.sleep >= 80 and state.sleep <= 100) and (state.bladder >= 80 and state.bladder <= 100):
-            return "Happy"
-        elif (state.fun >= 35 and state.fun < 80) and (state.hunger >= 35 and state.hunger < 80) and (state.social >= 35 and state.social < 80) and (state.sleep >= 35 and state.sleep < 80) and (state.bladder >= 35 and state.bladder < 80):
-            return "Neutral"
-        else:
-            return "Sad"
+    # def get_mood(self,obj):
+    #     state = Pet.objects.get(user=request.user).state
+    #     if (state.fun >= 80 and state.fun <= 100) and (state.hunger >= 80 and state.hunger <= 100) and (state.social >= 80 and state.social <= 100) and (state.sleep >= 80 and state.sleep <= 100) and (state.bladder >= 80 and state.bladder <= 100):
+    #         return "Happy"
+    #     elif (state.fun >= 35 and state.fun < 80) and (state.hunger >= 35 and state.hunger < 80) and (state.social >= 35 and state.social < 80) and (state.sleep >= 35 and state.sleep < 80) and (state.bladder >= 35 and state.bladder < 80):
+    #         return "Neutral"
+    #     else:
+    #         return "Sad"
 
 
 class UserCreateSerializer(serializers.ModelSerializer):

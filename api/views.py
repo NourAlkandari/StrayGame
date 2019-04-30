@@ -91,14 +91,27 @@ class EntertainPet(APIView):
         state.save()
         return Response(PetStateSerializer(pet.state).data)
 
-            # if entertainment == "Walk Pet": #bonus feature i.e. address multiple needs in one ???
-            #     state.fun = max(0, state.fun + double_counter)
-            #     # state.social = max(0, state.social + counter)
-            #     # state.bladder = max(0, state.bladder + counter)
-            # elif entertainment == "Ignore":
-            #     state.fun= max(0, state.fun - double_counter) 
-            # elif entertainment == "Go to Petstore":
-            #     state.fun= max(0, state.fun + counter)
+# class EntertainPet(APIView):
+#     serializer_class = PetStateSerializer
+
+#     def post(self, request):
+#         # entertainment = request.data
+#         entertainment = request.data.get("entertainment")
+#         pet = Pet.objects.get(user=request.user)
+#         state = pet.state
+#         if (state.fun <= 100) and (state.fun >= 0):
+#             if entertainment == "Play":
+#                 state.fun = max(0, state.fun + counter)
+#             elif entertainment == "Play":
+#                 state.fun = max(0, state.fun + counter)
+#             elif entertainment == "Play":
+#                 state.fun = max(0, state.fun + counter)                                
+   
+#         if state.fun > 100:
+#             state.fun = 100
+
+#         state.save()
+#         return Response(PetStateSerializer(pet.state).data)
 
 # syringe
 class MakePetHealthy(APIView):
@@ -146,7 +159,7 @@ class PutPetToBed(APIView):
 
 class NeedsDecay(CronJobBase):
     # RUN_EVERY_MINS = 120 # every 2 hours
-    RUN_EVERY_MINS = 30 # every 1 hours
+    RUN_EVERY_MINS = 60 # every 1 hours
 
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
     code = 'api.views.NeedsDecay'    # a unique code
@@ -156,6 +169,7 @@ class NeedsDecay(CronJobBase):
         for pet in pets:
             print(pet)
             pet.needs()
+
 
 ### Redundant for now ###
 # class PetMood(APIView):
