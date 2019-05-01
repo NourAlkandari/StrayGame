@@ -6,7 +6,6 @@ from rest_framework_jwt.settings import api_settings
 
 # from django.utils.timezone import now
 
-
 class PetStateSerializer(serializers.ModelSerializer):
     class Meta:
         model = PetState
@@ -16,6 +15,7 @@ class PetDetailSerializer(serializers.ModelSerializer):
     state = PetStateSerializer() #if using all, use the same field name!!!
     age = serializers.SerializerMethodField()
     # mood = serializers.SerializerMethodField()
+    healthy = serializers.SerializerMethodField()
 
     class Meta:
         model = Pet
@@ -35,6 +35,13 @@ class PetDetailSerializer(serializers.ModelSerializer):
     #         return "Neutral"
     #     else:
     #         return "Sad"
+
+    def get_healthy(self, obj):
+        state = Pet.objects.get(user=request.user).state
+        if (((state.fun+state.social+state.hunger+state.sleep+state.bladder)/5) <= 25):
+            return False
+        else:
+            return True
 
 
 class UserCreateSerializer(serializers.ModelSerializer):

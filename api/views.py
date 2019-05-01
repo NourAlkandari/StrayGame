@@ -155,7 +155,7 @@ class PutPetToBed(APIView):
 
         state.save()
         return Response(PetStateSerializer(pet.state).data)
-
+        
 
 class NeedsDecay(CronJobBase):
     # RUN_EVERY_MINS = 120 # every 2 hours
