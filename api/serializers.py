@@ -37,7 +37,7 @@ class PetDetailSerializer(serializers.ModelSerializer):
     #         return "Sad"
 
     def get_healthy(self, obj):
-        state = Pet.objects.get(user=request.user).state
+        state = Pet.objects.get(user=obj.user).state
         if (((state.fun+state.social+state.hunger+state.sleep+state.bladder)/5) <= 25):
             return False
         else:
