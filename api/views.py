@@ -119,21 +119,15 @@ class MakePetHealthy(APIView):
 
     def post(self, request):
         # make_pet_healthy = request.data
-        make_pet_healthy = request.data.get("Syringe")
+        make_pet_healthy = request.data.get("vet")
         pet = Pet.objects.get(user=request.user)
         state = pet.state
 
         if make_pet_healthy == "Syringe":
-            if (state.sleep <= 100) and (state.sleep >= 0):
-                state.sleep = 100
-            elif (state.social <= 100) and (state.social >= 0):
-                state.social = 100
-            elif (state.hunger <= 100) and (state.hunger >= 0):
-                state.hunger = 100
-            elif (state.bladder <= 100) and (state.bladder >= 0):
-                state.bladder = 100
-            elif (state.fun <= 100) and (state.fun >= 0):
-                state.fun = 100
+            state.sleep = 100
+            state.social = 100
+            state.hunger = 100
+            state.bladder = 100
 
         state.save()
         return Response(PetStateSerializer(pet.state).data)
@@ -143,11 +137,12 @@ class PutPetToBed(APIView):
     serializer_class = PetStateSerializer
 
     def post(self, request):
-        put_to_bed = request.data.get("Put to Bed")
+        print(request.data)
+        put_to_bed = request.data.get("sleep")
         pet = Pet.objects.get(user=request.user)
         state = pet.state
         if (state.sleep <= 100) and (state.sleep >= 0):
-            if put_to_bed == "Put to Bed":
+            if put_to_bed == "Sleep":
                 state.sleep = max(0, state.sleep + counter) 
 
         if state.sleep > 100:
