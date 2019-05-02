@@ -84,6 +84,7 @@ class EntertainPet(APIView):
         if (state.fun <= 100) and (state.fun >= 0):
             if entertainment == "Play":
                 state.fun = max(0, state.fun + counter)
+                state.sleep = max(0, state.sleep - counter)
    
         if state.fun > 100:
             state.fun = 100
@@ -128,6 +129,7 @@ class MakePetHealthy(APIView):
             state.social = 100
             state.hunger = 100
             state.bladder = 100
+            state.fun = max(0, state.fun - counter)
 
         state.save()
         return Response(PetStateSerializer(pet.state).data)
